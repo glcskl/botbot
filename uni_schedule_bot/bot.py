@@ -19,10 +19,10 @@ DAYS = [("пн", "Пн"), ("вт", "Вт"), ("ср", "Ср"), ("чт", "Чт"), 
 WEEKS = [("числитель", "Числитель"), ("знаменатель", "Знаменатель")]
 
 # В памяти держим выбор пользователя: { user_id: {"week": "...", "day": "..."} }
-user_state: dict[int, dict[str, str | None]] = {}
+user_state = {}
 
 
-def load_schedule() -> dict:
+def load_schedule():
     with open("schedule.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -35,7 +35,7 @@ def week_keyboard():
     return kb.as_markup()
 
 
-def day_keyboard(selected_week: str | None = None):
+def day_keyboard(selected_week=None):
     kb = InlineKeyboardBuilder()
     for key, title in DAYS:
         kb.button(text=title, callback_data=f"day:{key}")
@@ -51,7 +51,7 @@ def day_keyboard(selected_week: str | None = None):
     return kb.as_markup()
 
 
-def format_day(schedule: dict, week: str, day: str) -> str:
+def format_day(schedule, week, day):
     items = schedule.get(week, {}).get(day, [])
     day_name = dict(DAYS).get(day, day)
 
